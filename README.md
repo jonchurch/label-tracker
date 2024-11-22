@@ -22,6 +22,18 @@
 | `org_level`   | Set to `true` to operate across all repositories in the organization.      | No       | `false`                               |
 
 ## Usage
+
+### Permissions Required
+
+This action requires the following additional permissions to function correctly.
+- `issues: write` - To create or update issues.
+
+Ensure your workflow file includes these permissions:
+
+```yaml
+permissions:
+  issues: write
+```
  
 ### Example Workflow
 

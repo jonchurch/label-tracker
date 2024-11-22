@@ -13,6 +13,9 @@ on:
       - main
   workflow_dispatch: # Allow manual testing via GitHub UI
 
+permissions:
+  issues: write
+
 jobs:
   update-tracker:
     runs-on: ubuntu-latest
