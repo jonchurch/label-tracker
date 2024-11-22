@@ -39,8 +39,8 @@ async function run() {
     // Create or update the tracking issue
     await createOrUpdateIssue(
       octokit,
-      repoOwner,
-      repoName,
+      github.context.repo.owner,//repoOwner,
+      github.context.repo.repo,//repoName,
       issueNumber,
       issueTitle,
       issueBody
