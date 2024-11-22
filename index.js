@@ -46,6 +46,7 @@ async function run() {
       issueBody
     );
   } catch (error) {
+    console.log(error)
     core.setFailed(`An error occurred: ${error.message}`);
   }
 }
@@ -143,8 +144,8 @@ function generateIssueBody(issues, labelToTrack, orgLevel, issueExists, existing
     .map(
       (issue) => {
         const issueRef =  orgLevel
-          ? `- ${issue.repository.full_name}#${issue.number}`
-          : `- #${issue.number}`
+          ? `${issue.repository.full_name}#${issue.number}`
+          : `#${issue.number}`
 
       let assigneesText = '';
 
