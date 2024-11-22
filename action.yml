@@ -1,0 +1,33 @@
+name: 'Label Tracker Action'
+description: 'Keeps a tracking issue updated with a list of issues that have a specific label.'
+author: 'jonchurch'
+inputs:
+  label:
+    description: 'The label to track.'
+    required: true
+  issue_title:
+    description: 'The title of the tracking issue.'
+    required: true
+  token:
+    description: 'GitHub token for authentication.'
+    required: false
+    default: '${{ github.token }}'
+  repo_owner:
+    description: 'The owner of the repository.'
+    required: false
+    default: '${{ github.repository_owner }}'
+  repo_name:
+    description: 'The name of the repository.'
+    required: false
+    default: '${{ github.event.repository.name }}'
+  org_level:
+    description: 'Set to true to operate across all repositories in the organization.'
+    required: false
+    default: 'false'
+runs:
+  using: 'node22'
+  main: 'index.js'
+branding:
+  icon: 'list-unordered'
+  color: 'blue'
+
