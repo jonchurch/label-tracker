@@ -35,6 +35,13 @@ permissions:
   issues: write
 ```
 
+### Assigned Issues
+
+In the interest of not spamming people assigned to each issue, the first time the Tracking issue is created it will not use an `@` mentino to tag the assignees.
+
+On subsequent runs when the issue already exists it will edit the body to list the tracking user with an `@` mention. This way they are listed, but a notification isn't pushed to them.
+ 
+
 ### Editing the Tracking Issue
 
 The action will replace everything in the issue between the comment fences, so you can edit the issue and not have it overwritten entirely by the action. If it can't match the comment fences exactly, it will append the Tracking list to the end of the issue body instead.
@@ -46,8 +53,12 @@ Anything in here will be overwritten
 <!-- TRACKER_SECTION_END -->
 here too
 ```
- 
-### Example Workflow
+
+### Concurrency
+
+It's recommended you use concurrency controls to ensure that two of these actions cant be running at the same time.
+
+## Example Workflow
 
 Here's an example of a complete workflow file that will run whenever an issue is created or has its labels updated:
 
@@ -78,12 +89,3 @@ on: # Triggering on issue label changes
               issue_title: 'Tracking: Open Issues with `tracking` label'
 ```
 
-### Concurrency
-
-It's recommended you use concurrency controls to ensure that two of these actions cant be running at the same time.
-
-### Assigned Issues
-
-In the interest of not spamming people assigned to each issue, the first time the Tracking issue is created it will not use an `@` mentino to tag the assignees.
-
-On subsequent runs when the issue already exists it will edit the body to list the tracking user with an `@` mention. This way they are listed, but a notification isn't pushed to them.
