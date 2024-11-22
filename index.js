@@ -1,7 +1,8 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const octokit = github.getOctokit(token);
 
-async function run() {
+async function run(octokit) {
   try {
     // Get inputs
     const {
@@ -13,11 +14,8 @@ async function run() {
       orgLevel,
     } = getInputs();
 
-    // Initialize octokit
-    const octokit = github.getOctokit(token);
-
     // Search for existing issue
-    const issueNumber = await findExistingIssue(
+    const [issueNumber, existingBody] = await findExistingIssue(
       octokit,
       repoOwner,
       repoName,
@@ -35,7 +33,7 @@ async function run() {
 
     const issueExists = Boolean(issueNumber)
     // Generate issue body
-    const issueBody = generateIssueBody(issues, labelToTrack, orgLevel, issueExists);
+    const issueBody = generateIssueBody(issues, labelToTrack, orgLevel, issueExists, existingBody);
 
     // Create or update the tracking issue
     await createOrUpdateIssue(
@@ -69,7 +67,7 @@ async function findExistingIssue(octokit, repoOwner, repoName, issueTitle) {
   });
 
   if (existingIssues.total_count > 0) {
-    return existingIssues.items[0].number;
+    return [existingIssues.items[0].number, existingIssues.items[0].body];
   } else {
     return null;
   }
@@ -136,7 +134,10 @@ async function fetchIssues(octokit, repoOwner, repoName, labelToTrack, orgLevel)
   return issues;
 }
 
-function generateIssueBody(issues, labelToTrack, orgLevel, issueExists) {
+function generateIssueBody(issues, labelToTrack, orgLevel, issueExists, existingBody) {
+  const startMarker = '<!-- TRACKER_SECTION_START -->';
+  const endMarker = '<!-- TRACKER_SECTION_END -->';
+
   const issueList = issues
     .map(
       (issue) => {
@@ -144,31 +145,43 @@ function generateIssueBody(issues, labelToTrack, orgLevel, issueExists) {
           ? `- ${issue.repository.full_name}#${issue.number}`
           : `- #${issue.number}`
 
-        let assigneesText = '';
+      let assigneesText = '';
 
-        // only @ mention assignees if the tracking issue already exists
-        // otherwise you ping a bunch of people when the issue is first created
-        const ping = issueExists ? `@` : ''
+      // Only @mention assignees if the tracking issue already exists
+      const ping = issueExists ? '@' : '';
 
-        if (issue.assignees && issue.assignees.length > 0) {
-          const assigneeUsernames = issue.assignees.map((assignee) => `${ping}${assignee.login}`).join(', ');
-          assigneesText = ` (Assigned to: ${assigneeUsernames})`;
-        }
-
-        return issueRef + assigneesText
+      if (issue.assignees && issue.assignees.length > 0) {
+        const assigneeUsernames = issue.assignees
+          .map((assignee) => `${ping}${assignee.login}`)
+          .join(', ');
+        assigneesText = ` (Assigned to: ${assigneeUsernames})`;
       }
-    )
+
+      return `- ${issueRef}${assigneesText}`;
+    })
     .join('\n');
 
-  const issueBody = `
+  const newTrackingSection = `
+${startMarker}
 # Issues with the \`${labelToTrack}\` label${orgLevel ? ' in the organization' : ''}:
 
 ${issueList}
 
 _Last updated: ${new Date().toUTCString()}_
+${endMarker}
 `;
 
-  return issueBody;
+  if (existingBody && existingBody.includes(startMarker) && existingBody.includes(endMarker)) {
+    // Replace the existing fenced section
+    const updatedBody = existingBody.replace(
+      new RegExp(`${startMarker}[\\s\\S]*${endMarker}`, 'm'),
+      newTrackingSection
+    );
+    return updatedBody;
+  }
+
+  // Append the fenced section if it doesn't exist
+  return `${existingBody || ''}\n\n${newTrackingSection}`;
 }
 
 async function createOrUpdateIssue(
@@ -200,5 +213,5 @@ async function createOrUpdateIssue(
   }
 }
 
-run();
+run(octokit);
 
