@@ -39,7 +39,7 @@ permissions:
 
 ### Assigned Issues
 
-In the interest of not spamming people assigned to each issue, the first time the Tracking issue is created it will not use an `@` mentino to tag the assignees.
+In the interest of not spamming people assigned to each issue, the first time the Tracking issue is created it will not use an `@` mention to tag the assignees.
 
 On subsequent runs when the issue already exists it will edit the body to list the tracking user with an `@` mention. This way they are listed, but a notification isn't pushed to them.
  
@@ -53,7 +53,7 @@ Things out here will be safe
 <!-- TRACKER_SECTION_START -->
 Anything in here will be overwritten
 <!-- TRACKER_SECTION_END -->
-here too
+safe here too
 ```
 
 ### Concurrency
@@ -78,16 +78,18 @@ on: # Triggering on issue label changes
       - labeled
       - unlabeled
 
-    jobs:
-      update-tracker:
-        runs-on: ubuntu-latest
-        steps:
-          name: Checkout repository
-            uses: actions/checkout@v2
-            name: Label Tracker Action
-            uses: your-username/label-tracker-action@v1
-            with:
-              label: 'tracking'
-              issue_title: 'Tracking: Open Issues with `tracking` label'
+permissions: # we need issue: write to create/update the issue, we need to specify that
+# forks wont have write perms with this unless you opted into that or are using a different trigger (but dont do it!)
+  issues: write 
+
+jobs:
+  update-tracker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label Tracker Action
+        uses: jonchurch/label-tracker@main # replace this with current version! haven't published this yet!
+        with:
+          label: 'tracking'
+          issue_title: 'Tracking: Open Issues with `tracking` label'
 ```
 
