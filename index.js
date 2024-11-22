@@ -140,10 +140,12 @@ function generateIssueBody(issues, labelToTrack, orgLevel, issueExists) {
 
         let assigneesText = '';
 
-        // only list assignees if the tracking issue already exists
+        // only @ mention assignees if the tracking issue already exists
         // otherwise you ping a bunch of people when the issue is first created
-        if (issueExists && issue.assignees && issue.assignees.length > 0) {
-          const assigneeUsernames = issue.assignees.map((assignee) => `@${assignee.login}`).join(', ');
+        const ping = issueExists ? `@` : ''
+
+        if (issue.assignees && issue.assignees.length > 0) {
+          const assigneeUsernames = issue.assignees.map((assignee) => `${ping}${assignee.login}`).join(', ');
           assigneesText = ` (Assigned to: ${assigneeUsernames})`;
         }
 

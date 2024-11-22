@@ -8,7 +8,7 @@
 
 - Automatically updates a tracking issue with a list of all issues that have a specified label.
 - Can operate at the repository level or across all repositories in an organization.
-- Lists who is assigned to each issue.
+- Lists who is assigned to each issue (without pinging them)
 
 ## Inputs
 
@@ -48,3 +48,9 @@ on:
               label: 'tracking'
               issue_title: 'Tracking: Open Issues with `tracking` label'
 ```
+
+### Assigned Issues
+
+In the interest of not spamming people assigned to each issue, the first time the Tracking issue is created it will not use an `@` mentino to tag the assignees.
+
+On subsequent runs when the issue already exists it will edit the body to list the tracking user with an `@` mention. This way they are listed, but a notification isn't pushed to them.
