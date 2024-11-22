@@ -29,7 +29,7 @@ Here's an example of a complete workflow file that will run whenever an issue is
 
 ```yaml
 name: Update Tracking Issue
-on:
+on: # Triggering on issue label changes
   issues:
     types:
       - opened
@@ -54,3 +54,7 @@ on:
 In the interest of not spamming people assigned to each issue, the first time the Tracking issue is created it will not use an `@` mentino to tag the assignees.
 
 On subsequent runs when the issue already exists it will edit the body to list the tracking user with an `@` mention. This way they are listed, but a notification isn't pushed to them.
+
+### Don't Edit the Issue Body!
+
+If you edit the issue body it will be overwritten by the next update
