@@ -1,0 +1,31 @@
+name: Update Tracking Issue
+
+on:
+  issues:
+    types:
+      - opened
+      - labeled
+      - unlabeled
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - unlabeled
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allow manual testing via GitHub UI
+
+jobs:
+  update-tracker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Label Tracker Action
+        uses: ./ # use the action.yml in repo root
+        with:
+          label: 'tracking'
+          issue_title: 'Tracking: Open Issues with `tracking` label'
