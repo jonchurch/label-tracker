@@ -94,7 +94,7 @@ async function fetchIssues(octokit, repoOwner, repoName, labelToTrack, orgLevel)
           owner: repoOwner,
           repo: repo.name,
           labels: labelToTrack,
-          state: 'open',
+          state: 'all',
           per_page: 100,
         },
         (response) => response.data
@@ -118,7 +118,7 @@ async function fetchIssues(octokit, repoOwner, repoName, labelToTrack, orgLevel)
         owner: repoOwner,
         repo: repoName,
         labels: labelToTrack,
-        state: 'open',
+        state: 'all',
         per_page: 100,
       },
       (response) => response.data
