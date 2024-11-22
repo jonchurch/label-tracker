@@ -34,6 +34,18 @@ Ensure your workflow file includes these permissions:
 permissions:
   issues: write
 ```
+
+### Editing the Tracking Issue
+
+The action will replace everything in the issue between the comment fences, so you can edit the issue and not have it overwritten entirely by the action. If it can't match the comment fences exactly, it will append the Tracking list to the end of the issue body instead.
+
+```txt
+Things out here will be safe
+<!-- TRACKER_SECTION_START -->
+Anything in here will be overwritten
+<!-- TRACKER_SECTION_END -->
+here too
+```
  
 ### Example Workflow
 
@@ -75,7 +87,3 @@ It's recommended you use concurrency controls to ensure that two of these action
 In the interest of not spamming people assigned to each issue, the first time the Tracking issue is created it will not use an `@` mentino to tag the assignees.
 
 On subsequent runs when the issue already exists it will edit the body to list the tracking user with an `@` mention. This way they are listed, but a notification isn't pushed to them.
-
-### Don't Edit the Issue Body!
-
-If you edit the issue body it will be overwritten by the next update
