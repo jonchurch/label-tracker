@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const throttling = require("@octokit/plugin-throttling").throttling
 
 async function run() {
   try {
@@ -14,7 +15,7 @@ async function run() {
     } = getInputs();
 
     // Initialize octokit
-    const octokit = github.getOctokit(token);
+    const octokit = github.getOctokit(token, undefined, throttling);
 
     // Search for existing issue
     const issueNumber = await findExistingIssue(
