@@ -35,7 +35,7 @@ jobs:
         id: issue-title
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            echo "title=#${{ github.event.pull_request.number }} preview" >> $GITHUB_ENV
+            echo "title=PR #${{ github.event.pull_request.number }} issue preview" >> $GITHUB_ENV
           else
             echo "title=@main Tracking: Open Issues with `tracking` label" >> $GITHUB_ENV
           fi
