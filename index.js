@@ -163,15 +163,13 @@ function generateIssueBody(issues, labelToTrack, orgLevel, issueExists, existing
     })
     .join('\n');
 
-  const newTrackingSection = `
-${startMarker}
+  const newTrackingSection = `${startMarker}
 ## \`${labelToTrack}\`
 
 ${issueList}
 
 _Last updated: ${new Date().toUTCString()}_
-${endMarker}
-`;
+${endMarker}`;
 
   if (existingBody && existingBody.includes(startMarker) && existingBody.includes(endMarker)) {
     // Replace the existing fenced section
