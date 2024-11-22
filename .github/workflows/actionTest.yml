@@ -6,8 +6,11 @@ on:
       - labeled
       - unlabeled
   pull_request:
+    branches:
+      - main
     types:
       - opened
+      - synchronize
   push:
     branches:
       - main
