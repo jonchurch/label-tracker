@@ -100,6 +100,9 @@ async function fetchIssues(octokit, repoOwner, repoName, labelToTrack, orgLevel)
         (response) => response.data
       );
 
+      // sort asc
+      repoIssues.sort((a, b) => a.number - b.number);
+
       // Add repository name to each issue
       repoIssues.forEach((issue) => {
         issue.repoName = repo.name;
@@ -119,7 +122,10 @@ async function fetchIssues(octokit, repoOwner, repoName, labelToTrack, orgLevel)
         per_page: 100,
       },
       (response) => response.data
-    );
+      );
+
+      // sort asc
+      issues.sort((a, b) => a.number - b.number);
 
     // Add repository name to each issue
     issues.forEach((issue) => {
