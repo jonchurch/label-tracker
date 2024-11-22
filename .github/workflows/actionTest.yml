@@ -16,6 +16,10 @@ on:
 permissions:
   issues: write
 
+concurrency: # Ensure we never have more than one instance of this action running
+  group: update-tracking-issue-global
+  cancel-in-progress: true
+
 jobs:
   update-tracker:
     runs-on: ubuntu-latest

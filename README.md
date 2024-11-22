@@ -41,6 +41,11 @@ Here's an example of a complete workflow file that will run whenever an issue is
 
 ```yaml
 name: Update Tracking Issue
+
+concurrency: # Ensure we never have more than one instance of this action running
+  group: update-tracking-issue-global
+  cancel-in-progress: true
+
 on: # Triggering on issue label changes
   issues:
     types:
@@ -60,6 +65,10 @@ on: # Triggering on issue label changes
               label: 'tracking'
               issue_title: 'Tracking: Open Issues with `tracking` label'
 ```
+
+### Concurrency
+
+It's recommended you use concurrency controls to ensure that two of these actions cant be running at the same time.
 
 ### Assigned Issues
 
