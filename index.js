@@ -135,8 +135,8 @@ function generateIssueBody(issues, labelToTrack, orgLevel, issueExists) {
     .map(
       (issue) => {
         const issueRef =  orgLevel
-          ? `${issue.repository.full_name}#${issue.number}`
-          : `#${issue.number}`
+          ? `- ${issue.repository.full_name}#${issue.number}`
+          : `- #${issue.number}`
 
         let assigneesText = '';
 
@@ -155,9 +155,9 @@ function generateIssueBody(issues, labelToTrack, orgLevel, issueExists) {
     .join('\n');
 
   const issueBody = `
-# Issues with the \`${labelToTrack}\` label${orgLevel ? ' in the organization' : ''}:**
+# Issues with the \`${labelToTrack}\` label${orgLevel ? ' in the organization' : ''}:
 
-    ${issueList}
+${issueList}
 
 _Last updated: ${new Date().toUTCString()}_
 `;
