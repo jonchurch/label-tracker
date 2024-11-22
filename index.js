@@ -71,7 +71,7 @@ async function findExistingIssue(octokit, repoOwner, repoName, issueTitle) {
   if (existingIssues.total_count > 0) {
     return [existingIssues.items[0].number, existingIssues.items[0].body];
   } else {
-    return null;
+    return [];
   }
 }
 
