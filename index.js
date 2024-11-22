@@ -1,8 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const octokit = github.getOctokit(token);
 
-async function run(octokit) {
+async function run() {
   try {
     // Get inputs
     const {
@@ -13,6 +12,8 @@ async function run(octokit) {
       repoName,
       orgLevel,
     } = getInputs();
+
+    const octokit = github.getOctokit(token);
 
     // Search for existing issue
     const [issueNumber, existingBody] = await findExistingIssue(
@@ -213,5 +214,5 @@ async function createOrUpdateIssue(
   }
 }
 
-run(octokit);
+run();
 
