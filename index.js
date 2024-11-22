@@ -54,7 +54,7 @@ async function run() {
 function getInputs() {
   const labelToTrack = core.getInput('label', { required: true });
   const issueTitle = core.getInput('issue_title', { required: true });
-  const token = core.getInput('token');
+  const token = core.getInput('token') || process.env.GITHUB_TOKEN;
   const repoOwner = core.getInput('repo_owner') || github.context.repo.owner;
   const repoName = core.getInput('repo_name') || github.context.repo.repo;;
   const orgLevel = core.getBooleanInput('org_level');
