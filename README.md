@@ -2,7 +2,9 @@
 
 ## Overview
 
-**Label Tracker Action** is a GitHub Action designed to maintain a tracking issue that lists all open issues with a specific label. This action is particularly useful for keeping track of issues across a repository or an entire organization.
+**Label Tracker Action** is a GitHub Action designed to maintain a tracking issue that lists all issues with a specific label. This action is particularly useful for keeping track of issues across a repository or an entire organization.
+
+> 💡 _See an example here_ https://github.com/jonchurch/label-tracker/issues/4
 
 ## Features
 
