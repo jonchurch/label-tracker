@@ -165,7 +165,7 @@ function generateIssueBody(issues, labelToTrack, orgLevel, issueExists, existing
 
   const newTrackingSection = `
 ${startMarker}
-# Issues with the \`${labelToTrack}\` label${orgLevel ? ' in the organization' : ''}:
+## ${labelToTrack}
 
 ${issueList}
 
