@@ -21,6 +21,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install Deps
+        run: npm i
+
       - name: Determine Issue Title
         id: issue-title
         run: |
